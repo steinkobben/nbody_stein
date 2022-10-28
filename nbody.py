@@ -124,13 +124,13 @@ def offset_momentum(ref, bodies=SYSTEM, px=0.0, py=0.0, pz=0.0):
 
 
 def write(name, x, y, z):
-    with open("output.csv", 'a') as f:
+    with open("output_py.csv", 'a') as f:
         line = f"{name}, {x}, {y}, {z} \n"
         f.write(line)
 
 
 def main(n, ref="sun"):
-    with open("output.csv", 'w') as f:
+    with open("output_py.csv", 'w') as f:
         headers = "body_name;x_coordinate;y_coordinate;z_coordinate \n"
         f.write(headers)
     offset_momentum(BODIES[ref])
