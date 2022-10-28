@@ -14,12 +14,22 @@
 #define _USE_MATH_DEFINES // https://docs.microsoft.com/en-us/cpp/c-runtime-library/math-constants?view=msvc-160
 #include <cmath>
 #include <iostream>
+#include <fstream>
 
 
 // these values are constant and not allowed to be changed
 const double SOLAR_MASS = 4 * M_PI * M_PI;
 const double DAYS_PER_YEAR = 365.24;
 const unsigned int BODIES_COUNT = 5;
+
+
+int write (std::string name, std::string x, std::string y, std::string z) {
+    std::ofstream output_file;
+    output_file.open ("output_cpp.csv", std::ios_base::app);
+    output_file << name << "," << x << "," << y << "," << z << "\n";
+    output_file.close();
+    return 0;
+}
 
 
 class vector3d {
@@ -133,6 +143,10 @@ void advance(body state[BODIES_COUNT], double dt) {
      */
     for (unsigned int i = 0; i < BODIES_COUNT; ++i) {
         state[i].position += state[i].velocity * dt;
+        write(state[i].name,
+              std::to_string(state[i].position.x),
+              std::to_string(state[i].position.y),
+              std::to_string(state[i].position.z));
     }
 }
 
@@ -249,6 +263,10 @@ int main(int argc, char **argv) {
         const unsigned int n = atoi(argv[1]);
         offset_momentum(state);
         std::cout << energy(state) << std::endl;
+        std::ofstream output_file;
+        output_file.open ("output_cpp.csv");
+        output_file << "name;x_coordinate;y_coordinate;z_coordinate \n" ;
+        output_file.close();
         for (int i = 0; i < n; ++i) {
             advance(state, 0.01);
         }
