@@ -66,6 +66,7 @@ BODIES = {
 }
 
 SYSTEM = tuple(BODIES.values())
+key_list = list(BODIES.keys())
 PAIRS = tuple(combinations(SYSTEM))
 
 
@@ -85,18 +86,11 @@ def advance(dt, n, bodies=SYSTEM, pairs=PAIRS):
             v2[2] += dz * b1m
             v2[1] += dy * b1m
             v2[0] += dx * b1m
-        # for i in bodies.keys:
-        #     (r, [vx, vy, vz], m) = bodies[i]
-        #     r[0] += dt * vx
-        #     r[1] += dt * vy
-        #     r[2] += dt * vz
-        #     write(i, r[0], r[1], r[2])
 
         for ind, (r, [vx, vy, vz], m) in enumerate(bodies):
             r[0] += dt * vx
             r[1] += dt * vy
             r[2] += dt * vz
-            key_list = list(BODIES.keys())
             name = key_list[ind]
             write(name, r[0], r[1], r[2])
 
@@ -130,9 +124,9 @@ def write(name, x, y, z):
 
 
 def main(n, ref="sun"):
-    with open("output_py.csv", 'w') as f:
-        headers = "body_name;x_coordinate;y_coordinate;z_coordinate \n"
-        f.write(headers)
+    # with open("output_py.csv", 'w') as f:
+    #     headers = "body_name;x_coordinate;y_coordinate;z_coordinate \n"
+    #     f.write(headers)
     offset_momentum(BODIES[ref])
     report_energy()
     advance(0.01, n)
